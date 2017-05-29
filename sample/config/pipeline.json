@@ -1,0 +1,65 @@
+{
+    "pipeline": {
+        "roleArn": "arn:aws:iam::XXXXXXXXXXXXXXXXX:role/AWS-CodePipeline-ServiceRole", 
+        "stages": [
+            {
+                "name": "Source", 
+                "actions": [
+                    {
+                        "inputArtifacts": [], 
+                        "name": "Source", 
+                        "actionTypeId": {
+                            "category": "Source", 
+                            "owner": "ThirdParty", 
+                            "version": "1", 
+                            "provider": "GitHub"
+                        }, 
+                        "outputArtifacts": [
+                            {
+                                "name": "MyApp"
+                            }
+                        ], 
+                        "configuration": {
+                            "Owner": "XXXXXXXXXXX", 
+                            "Repo": "test", 
+                            "Branch": "master", 
+                            "OAuthToken": "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+                        }, 
+                        "runOrder": 1
+                    }
+                ]
+            }, 
+            {
+                "name": "TestStaging", 
+                "actions": [
+                    {
+                        "inputArtifacts": [
+                            {
+                                "name": "MyApp"
+                            }
+                        ], 
+                        "name": "test", 
+                        "actionTypeId": {
+                            "category": "Deploy", 
+                            "owner": "AWS", 
+                            "version": "1", 
+                            "provider": "CodeDeploy"
+                        }, 
+                        "outputArtifacts": [], 
+                        "configuration": {
+                            "ApplicationName": "test", 
+                            "DeploymentGroupName": "test"
+                        }, 
+                        "runOrder": 1
+                    }
+                ]
+            }
+        ], 
+        "artifactStore": {
+            "type": "S3", 
+            "location": "codepipeline-ap-northeast-1-XXXXXXXXXX"
+        }, 
+        "name": "test-pipeline", 
+        "version": 1
+    }
+}
